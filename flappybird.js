@@ -38,6 +38,7 @@ let score = 0;
 
 //sound
 let gameOverSound = new Audio("./gameOverSound.mp3");
+let backgroundSound = new Audio("./backgroundSound.mp3");
 
 window.onload = function () {
     board = document.getElementById("board");
@@ -56,6 +57,10 @@ window.onload = function () {
 
     bottomPipeImg = new Image();
     bottomPipeImg.src = "./bottompipe.png";
+
+    // Play background sound and set it to loop infinitely
+    backgroundSound.loop = true;
+    backgroundSound.play();
 
     requestAnimationFrame(update);
     setInterval(placePipes, 1500);
@@ -140,6 +145,10 @@ function moveBird(e) {
             pipeArray = [];
             score = 0;
             gameOver = false;
+
+            // Restart the background music after game reset
+            backgroundSound.currentTime = 0;
+            backgroundSound.play();
         }
     }
 }
@@ -154,4 +163,7 @@ function detectCollision(a, b) {
 function triggerGameOver() {
     gameOver = true;
     gameOverSound.play();
+
+    // Pause background sound on game over
+    backgroundSound.pause();
 }
